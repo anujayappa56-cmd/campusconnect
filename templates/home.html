@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CampusConnect Portal</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            height: 100vh;
+            display: flex;
+        }
+
+        /* NAVBAR (ADDED) */
+        .navbar {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            z-index: 10;
+        }
+
+        .logo {
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .nav-links a {
+            margin-left: 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #00c6ff;
+        }
+
+        /* LEFT SIDE */
+        .left {
+            width: 60%;
+            background: url('/static/college.jpg') no-repeat center center/cover;
+            position: relative;
+        }
+
+        /* MOVING GRADIENT */
+        .left::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+
+            background: linear-gradient(270deg, #1e3c72, #2a5298, #00c6ff);
+            background-size: 600% 600%;
+            animation: gradientMove 10s ease infinite;
+
+            opacity: 0.7;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .left-content {
+            position: absolute;
+            bottom: 60px;
+            left: 60px;
+            color: white;
+            z-index: 2;
+        }
+
+        .left-content h1 {
+            font-size: 42px;
+        }
+
+        .left-content p {
+            margin-top: 10px;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        /* TYPING CURSOR */
+        .cursor {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0; }
+        }
+
+        /* RIGHT SIDE */
+        .right {
+            width: 40%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f5f7fb;
+        }
+
+        /* CARD */
+        .card {
+            width: 360px;
+            padding: 40px;
+            border-radius: 16px;
+            background: white;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+
+            /* SLIDE ANIMATION */
+            opacity: 0;
+            transform: translateX(50px);
+            animation: slideIn 0.8s ease forwards;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .title {
+            font-size: 30px;
+            font-weight: 600;
+            color: #222;
+        }
+
+        .title span {
+            color: #0072ff;
+        }
+
+        .subtitle {
+            margin-top: 8px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .tagline {
+            margin-top: 10px;
+            font-size: 13px;
+            color: #777;
+        }
+
+        /* BUTTONS */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .login {
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            color: white;
+        }
+
+        .login:hover {
+            transform: scale(1.05);
+        }
+
+        .signup {
+            border: 2px solid #0072ff;
+            color: #0072ff;
+        }
+
+        .signup:hover {
+            background: #0072ff;
+            color: white;
+        }
+
+        /* ABOUT LINK */
+        .about-link {
+            display: block;
+            margin-top: 15px;
+            font-size: 13px;
+            color: #0072ff;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .about-link:hover {
+            text-decoration: underline;
+            color: #0056cc;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #999;
+        }
+
+        /* MOBILE */
+        @media (max-width: 900px) {
+            .left {
+                display: none;
+            }
+
+            .right {
+                width: 100%;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR (ADDED, NOTHING REMOVED) -->
+    <div class="navbar">
+        <div class="logo">🎓 CampusConnect</div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+            <a href="/login">Login</a>
+        </div>
+    </div>
+
+    <!-- LEFT SIDE -->
+    <div class="left">
+        <div class="left-content">
+            <h1>🎓 CampusConnect</h1>
+
+            <!-- TYPING TEXT -->
+            <p id="typing"><span class="cursor">|</span></p>
+        </div>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="right">
+
+        <div class="card">
+
+            <div class="title">
+                <span>Campus</span>Connect
+            </div>
+
+            <div class="subtitle">
+                Welcome Back 👋
+            </div>
+
+            <div class="tagline">
+                Attendance • Voting • Announcements
+            </div>
+
+            <a href="/login" class="btn login">Login</a>
+            <a href="/signup" class="btn signup">Sign Up</a>
+
+            <!-- ABOUT LINK ADDED -->
+            <a href="/about" class="about-link">ℹ️ About Our College</a>
+
+            <div class="footer">
+                Smart. Simple. Connected.
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- TYPING SCRIPT -->
+    <script>
+        const text = "Your Digital Campus Platform";
+        let index = 0;
+
+        function typeEffect() {
+            if (index < text.length) {
+                document.getElementById("typing").innerHTML =
+                    text.substring(0, index + 1) + '<span class="cursor">|</span>';
+                index++;
+                setTimeout(typeEffect, 60);
+            }
+        }
+
+        window.onload = typeEffect;
+    </script>
+
+</body>
+</html>

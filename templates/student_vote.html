@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Voting</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: url('/static/vote.jpg') no-repeat center center/cover;
+            color: white;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .container {
+            width: 70%;
+            margin: auto;
+            margin-top: 40px;
+            background: rgba(0,0,0,0.7);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 15px;
+            border-bottom: 1px solid white;
+            text-align: center;
+        }
+
+        button {
+            padding: 8px 15px;
+            background: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: darkgreen;
+        }
+
+        .message {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        .back {
+            display: block;
+            margin-top: 20px;
+            color: lightgray;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>Welcome {{ session['user'] }} - Vote</h2>
+
+<div class="container">
+
+    <!-- ✅ NEW MESSAGE DISPLAY (ONLY ADDITION) -->
+    {% if message %}
+        <p class="message" style="color:{% if 'successfully' in message %}lightgreen{% else %}red{% endif %};">
+            {{ message }}
+        </p>
+    {% endif %}
+
+    {% if candidates|length == 0 %}
+        <p class="message">🕒 Voting is not started yet. Please wait for HOD.</p>
+
+    {% elif voted %}
+        <p class="message">✅ You have already voted.</p>
+
+    {% else %}
+
+        <table>
+            <tr>
+                <th>Candidate Name</th>
+                <th>Action</th>
+            </tr>
+
+            {% for c in candidates %}
+            <tr>
+                <td>{{ c[1] }}</td>
+                <td>
+                    <a href="{{ url_for('cast_vote', candidate_id=c[0]) }}">
+                        <button>Vote</button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+    {% endif %}
+
+    <a href="{{ url_for('dashboard') }}" class="back">⬅ Back to Dashboard</a>
+
+</div>
+
+</body>
+</html>

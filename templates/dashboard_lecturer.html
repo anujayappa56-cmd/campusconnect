@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lecturer Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { 
+            margin: 0; 
+            font-family: 'Poppins', sans-serif; 
+        }
+
+        .overlay { 
+            position: absolute; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.4); 
+        }
+
+        .header { 
+            position: absolute; 
+            top: 30px; 
+            width: 100%; 
+            text-align: center; 
+            color: white; 
+            font-size: 32px; 
+            font-weight: 700; 
+        }
+
+        .menu { 
+            position: absolute; 
+            top: 50%; 
+            left: 60px; 
+            transform: translateY(-50%); 
+        }
+
+        .menu a { 
+            display: block; 
+            margin: 15px 0; 
+            padding: 14px 25px; 
+            width: 220px; 
+            text-decoration: none; 
+            color: white; 
+            font-size: 18px; 
+            font-weight: 500; 
+            border-radius: 8px; 
+            transition: 0.3s; 
+        }
+
+        .attendance { background: #f39c12; } 
+        .results { background: #2ecc71; } 
+        .announcement { background: #9b59b6; }
+
+        .menu a:hover { 
+            transform: translateX(10px) scale(1.05); 
+            opacity: 0.9; 
+        }
+
+        .top-right { 
+            position: absolute; 
+            top: 25px; 
+            right: 30px; 
+        }
+
+        .top-right a { 
+            color: white; 
+            margin-left: 20px; 
+            text-decoration: none; 
+            font-size: 16px; 
+        }
+
+        .delete { 
+            color: #ff4d4d; 
+        }
+    </style>
+</head>
+
+<body>
+
+<div style="background-image: url('/static/lecturer.jpg'); height:100vh; background-size:cover; position:relative;">
+    
+    <div class="overlay"></div>
+
+    <!-- HEADER -->
+    <div class="header">
+        Welcome {{ session['user']|capitalize }} 👨‍🏫
+    </div>
+
+    <!-- MENU -->
+    <div class="menu">
+        <a href="{{ url_for('attendance_page') }}" class="attendance">
+            📅 Manage Attendance
+        </a>
+
+        <!-- ✅ FIXED HERE -->
+        <a href="{{ url_for('exam_results') }}" class="results">
+            📊 Upload Results
+        </a>
+
+        <a href="{{ url_for('announcements') }}" class="announcement">
+            📢 Announcements
+        </a>
+    </div>
+
+    <!-- TOP RIGHT -->
+    <div class="top-right">
+        <a href="{{ url_for('logout') }}">Logout</a>
+        <a href="{{ url_for('delete_account') }}" onclick="return confirm('Are you sure?');" class="delete">Delete</a>
+    </div>
+
+</div>
+
+</body>
+</html>

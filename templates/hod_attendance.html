@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HOD Attendance</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            margin: 0;
+            background: #111;
+            color: white;
+        }
+
+        /* 🔵 TOP BAR */
+        .topbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: #222;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .topbar h2 {
+            margin: 0;
+        }
+
+        .topbar .buttons a {
+            margin-left: 10px;
+            padding: 8px 15px;
+            text-decoration: none;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .dashboard-btn { background: #007bff; }
+        .logout-btn { background: red; }
+        .download-btn { background: green; }
+
+        .dashboard-btn:hover { background: #0056b3; }
+        .logout-btn:hover { background: darkred; }
+        .download-btn:hover { background: darkgreen; }
+
+        /* CONTENT */
+        .content {
+            margin-top: 80px;
+            text-align: center;
+        }
+
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid white;
+        }
+
+        th {
+            background: #4CAF50;
+        }
+
+        input, button {
+            padding: 8px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 🔵 TOP BAR -->
+<div class="topbar">
+    <h2>HOD Attendance Panel</h2>
+
+    <div class="buttons">
+        <a href="/dashboard" class="dashboard-btn">🏠 Dashboard</a>
+        <a href="/download_attendance" class="download-btn">⬇ Download</a>
+        <a href="/logout" class="logout-btn">Logout</a>
+    </div>
+</div>
+
+<div class="content">
+
+    <!-- 🔍 SEARCH + FILTER -->
+    <form method="POST">
+        <input type="text" name="student_id" placeholder="Enter Student ID">
+        
+        <label>
+            <input type="checkbox" name="low_attendance"> Show Below 70%
+        </label>
+        
+        <button type="submit">Search / Filter</button>
+    </form>
+
+    <table>
+    <tr>
+        <th>Student ID</th>
+        <th>Subject</th>
+        <th>Held</th>
+        <th>Attended</th>
+        <th>Absent</th>
+        <th>Percentage</th>
+    </tr>
+
+    {% for row in records %}
+    <tr style="color: {% if row.percentage < 70 %}red{% else %}white{% endif %}">
+        <td>{{ row.student_id }}</td>
+        <td>{{ row.subject }}</td>
+        <td>{{ row.held }}</td>
+        <td>{{ row.attended }}</td>
+        <td>{{ row.absent }}</td>
+        <td>{{ row.percentage }}%</td>
+    </tr>
+    {% endfor %}
+
+    </table>
+
+</div>
+
+</body>
+</html>

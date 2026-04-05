@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #0f172a;
+            color: white;
+        }
+
+        .topbar {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            background: #1e293b;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .topbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+            padding: 8px 15px;
+            border-radius: 6px;
+        }
+
+        .btn-blue { background: #3b82f6; }
+        .btn-red { background: #ef4444; }
+        .btn-green { background: #22c55e; }
+        .btn-orange { background: #f59e0b; }
+
+        .container {
+            margin-top: 80px;
+            padding: 20px;
+        }
+
+        table {
+            width: 90%;
+            margin: auto;
+            border-collapse: collapse;
+            background: #1e293b;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background: #334155;
+        }
+
+        tr:nth-child(even) {
+            background: #0f172a;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="topbar">
+    <div><b>{% block header %}{% endblock %}</b></div>
+    <div>
+        <a href="/dashboard" class="btn-blue">🏠 Dashboard</a>
+        <a href="/logout" class="btn-red">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+
+</body>
+</html>

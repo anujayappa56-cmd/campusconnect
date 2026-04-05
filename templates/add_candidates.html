@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Candidates</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: url('/static/candidate.jpg') no-repeat center center/cover;
+            color: white;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            margin-top: 20px;
+            background: rgba(0,0,0,0.7);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid white;
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: green;
+            color: white;
+            border: none;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: darkgreen;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: lightgray;
+        }
+
+        .stats {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .announce-btn {
+            display: block;
+            margin: 20px auto;
+            background: orange;
+        }
+
+        .announce-btn:hover {
+            background: darkorange;
+        }
+
+        .reset-btn {
+            display: block;
+            margin: 10px auto;
+            background: red;
+        }
+
+        .reset-btn:hover {
+            background: darkred;
+        }
+
+        .chart-box {
+            width: 70%;
+            margin: 30px auto;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>HOD - Add Election Candidates</h2>
+
+<div class="container">
+
+    <!-- Voting Stats -->
+    <div class="stats">
+        <b>Total Students:</b> {{ total_students }} |
+        <b>Voted Students:</b> {{ voted_students }} |
+
+        {% if total_students == voted_students and total_students > 0 %}
+            <span style="color:lightgreen;">✅ Voting Completed</span>
+        {% else %}
+            <span style="color:orange;">⏳ Voting Ongoing</span>
+        {% endif %}
+    </div>
+
+    <!-- Add Candidates Form -->
+    <form method="POST" action="{{ url_for('hod_add_candidates') }}">
+        <table>
+            <tr>
+                <th>Select</th>
+                <th>Student ID</th>
+                <th>Username</th>
+            </tr>
+            {% for student in students %}
+            <tr>
+                <td>
+                    <input type="checkbox" name="student_ids" value="{{ student[0] }}">
+                </td>
+                <td>{{ student[0] }}</td>
+                <td>{{ student[1] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <div style="text-align:center;">
+            <button type="submit">➕ Add Selected Candidates</button>
+        </div>
+    </form>
+</div>
+
+<!-- Current Candidates -->
+<div class="container">
+    <h3 style="text-align:center;">Current Candidates</h3>
+
+    {% if candidates|length == 0 %}
+        <p style="text-align:center;">No candidates added yet.</p>
+    {% else %}
+        <table>
+            <tr>
+                <th>Candidate Name</th>
+                <th>Votes</th>
+            </tr>
+            {% for c in candidates %}
+            <tr>
+                <td>{{ c[1] }}</td>
+                <td>{{ c[2] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+    <!-- ✅ Announce Results Button -->
+    {% if total_students == voted_students and total_students > 0 %}
+        <div style="text-align:center;">
+            <a href="/announce_results">
+                <button class="announce-btn">📢 Announce Results</button>
+            </a>
+        </div>
+    {% endif %}
+
+    <!-- ✅ Reset Button -->
+    <div style="text-align:center;">
+        <a href="/reset_election" onclick="return confirm('Are you sure to reset election?')">
+            <button class="reset-btn">🔄 Reset Election</button>
+        </a>
+    </div>
+</div>
+
+<!-- 🔥 LIVE VOTING GRAPH -->
+<div class="container">
+    <h3 style="text-align:center;">Live Voting Graph</h3>
+
+    <div class="chart-box">
+        <canvas id="voteChart"></canvas>
+    </div>
+</div>
+
+<script>
+    const labels = [{% for c in candidates %}"{{ c[1] }}",{% endfor %}];
+    const data = [{% for c in candidates %}{{ c[2] }},{% endfor %}];
+
+    const ctx = document.getElementById('voteChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Votes',
+                data: data
+            }]
+        }
+    });
+</script>
+
+<a href="{{ url_for('dashboard') }}" class="back">⬅ Back to Dashboard</a>
+
+</body>
+</html>

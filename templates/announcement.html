@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Announcements</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: url('/static/announcement.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+        }
+
+        /* 🔷 TOP BAR */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: rgba(0,0,0,0.7);
+        }
+
+        .top-bar h2 {
+            margin: 0;
+        }
+
+        .top-bar a {
+            margin-left: 15px;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            color: white;
+            font-weight: 500;
+        }
+
+        .dashboard-btn {
+            background: #007bff;
+        }
+
+        .logout-btn {
+            background: red;
+        }
+
+        .dashboard-btn:hover {
+            background: #0056b3;
+        }
+
+        .logout-btn:hover {
+            background: darkred;
+        }
+
+        .header {
+            text-align: center;
+            font-size: 28px;
+            padding: 20px 0;
+            font-weight: 600;
+        }
+
+        .announcements-container {
+            width: 70%;
+            margin: auto;
+            background: rgba(0,0,0,0.6);
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .announcement {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid lightgray;
+        }
+
+        a.download-link {
+            color: lightblue;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        a.download-link:hover {
+            text-decoration: underline;
+        }
+
+        .hod-form {
+            width: 70%;
+            margin: auto;
+            background: rgba(0,0,0,0.7);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+        }
+
+        .hod-form input, .hod-form textarea {
+            width: 90%;
+            padding: 8px;
+            margin: 8px 0;
+            border-radius: 6px;
+            border: none;
+            font-size: 16px;
+        }
+
+        .hod-form input[type="file"] {
+            padding: 3px;
+        }
+
+        .hod-form button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            background-color: lightgreen;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .hod-form button:hover {
+            background-color: #32cd32;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- 🔷 TOP NAVIGATION BAR -->
+<div class="top-bar">
+    <h2>📢 Announcements</h2>
+    <div>
+        <a href="/dashboard" class="dashboard-btn">🏠 Dashboard</a>
+        <a href="/logout" class="logout-btn">🚪 Logout</a>
+    </div>
+</div>
+
+<div class="header">Latest Updates</div>
+
+<!-- 🔷 HOD FORM -->
+{% if role == 'hod' %}
+<div class="hod-form">
+    <form method="POST" enctype="multipart/form-data" action="/hod_announcement">
+        <h3 style="color: lightgreen;">Post New Announcement</h3>
+        <input type="text" name="title" placeholder="Title" required><br>
+        <textarea name="message" placeholder="Message" rows="4" required></textarea><br>
+        <input type="file" name="file" accept=".pdf"><br><br>
+        <button type="submit">Post Announcement</button>
+    </form>
+</div>
+{% endif %}
+
+<!-- 🔷 ANNOUNCEMENTS LIST -->
+<div class="announcements-container">
+
+    {% if announcements %}
+        {% for ann in announcements %}
+            <div class="announcement">
+                <h3 style="color:lightgreen;">{{ ann[0] }}</h3>
+                <p>{{ ann[1] }}</p>
+                <small>🕒 {{ ann[3] }}</small><br>
+
+                {% if ann[2] %}
+                    <a class="download-link" href="{{ url_for('static', filename='uploads/' + ann[2]) }}" download>
+                        📥 Download File
+                    </a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No announcements yet.</p>
+    {% endif %}
+
+</div>
+
+</body>
+</html>

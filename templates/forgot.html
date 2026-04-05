@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reset Password</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: url('/static/forgot.jpg') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .box {
+            background: rgba(0,0,0,0.7);
+            padding: 25px;
+            color: white;
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+        }
+
+        input, select {
+            width: 90%;
+            padding: 8px;
+            margin: 8px 0;
+            border-radius: 5px;
+            border: none;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: green;
+            color: white;
+            border: none;
+            margin-top: 10px;
+        }
+
+        .hidden { display: none; }
+    </style>
+
+    <script>
+        function showFields() {
+            let role = document.getElementById("role").value;
+
+            document.getElementById("studentFields").style.display = "none";
+            document.getElementById("lecturerFields").style.display = "none";
+            document.getElementById("hodFields").style.display = "none";
+
+            if (role === "student") {
+                document.getElementById("studentFields").style.display = "block";
+            } else if (role === "lecturer") {
+                document.getElementById("lecturerFields").style.display = "block";
+            } else if (role === "hod") {
+                document.getElementById("hodFields").style.display = "block";
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+<div class="box">
+
+    <h2>Reset Password</h2>
+
+    <form method="POST">
+
+        <select name="role" id="role" onchange="showFields()" required>
+            <option value="">Select Role</option>
+            <option value="student">Student</option>
+            <option value="lecturer">Lecturer</option>
+            <option value="hod">HOD</option>
+        </select>
+
+        <!-- STUDENT -->
+        <div id="studentFields" class="hidden">
+            <input type="text" name="student_id" placeholder="Student ID">
+            <input type="text" name="username" placeholder="Username">
+        </div>
+
+        <!-- LECTURER -->
+        <div id="lecturerFields" class="hidden">
+            <select name="subject">
+                <option value="">Select Subject</option>
+                <option>PHP</option>
+                <option>AI</option>
+                <option>Data Mining</option>
+                <option>Fundamentals Of Data Science</option>
+                <option>WCMS</option>
+            </select>
+            <input type="text" name="username" placeholder="Username">
+        </div>
+
+        <!-- HOD -->
+        <div id="hodFields" class="hidden">
+            <input type="text" name="username" placeholder="Username">
+        </div>
+
+        <input type="password" name="new_password" placeholder="New Password" required>
+
+        <button type="submit">Reset Password</button>
+
+    </form>
+
+    <p style="color: lightgreen;">{{ message }}</p>
+
+    <a href="{{ url_for('login') }}">Back to Login</a>
+
+</div>
+
+</body>
+</html>

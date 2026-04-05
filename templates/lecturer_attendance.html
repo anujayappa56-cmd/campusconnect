@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Attendance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 40px;
+            background: rgba(0,0,0,0.3);
+            color: white;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .container {
+            width: 85%;
+            margin: 40px auto;
+            padding: 30px;
+            border-radius: 15px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(12px);
+            color: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background: rgba(0,0,0,0.4);
+        }
+
+        td {
+            background: rgba(255,255,255,0.1);
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #00c9a7;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <h2>📅 Attendance - {{ subject }}</h2>
+    <div class="nav-links">
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+
+<form method="POST" action="/submit_attendance">
+
+    <table>
+        <tr>
+            <th>Student ID</th>
+            <th>Name</th>
+            <th>Status</th>
+        </tr>
+
+        {% for student in students %}
+        <tr>
+            <td>{{ student[0] }}</td>
+            <td>{{ student[1] }}</td>
+            <td>
+                <label>
+                    <input type="radio" name="att_{{ student[0] }}" value="present" required> Present
+                </label>
+                <label>
+                    <input type="radio" name="att_{{ student[0] }}" value="absent"> Absent
+                </label>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br><br>
+    <button type="submit">💾 Save Attendance</button>
+
+</form>
+
+</div>
+
+</body>
+</html>

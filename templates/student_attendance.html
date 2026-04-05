@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Attendance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-image: url('/static/attendance.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+        }
+
+        /* 🔝 TOP BAR */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.8);
+            padding: 15px 30px;
+        }
+
+        .topbar h2 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .topbar a {
+            text-decoration: none;
+            color: white;
+            margin-left: 15px;
+            padding: 8px 15px;
+            background: #007BFF;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .topbar a:hover {
+            background: #0056b3;
+        }
+
+        .logout {
+            background: red !important;
+        }
+
+        h2.main-title {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 32px;
+        }
+
+        /* 📊 TABLE */
+        table {
+            width: 80%;
+            margin: 40px auto;
+            border-collapse: collapse;
+            background: rgba(0,0,0,0.6);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            font-size: 18px;
+        }
+
+        th {
+            background: rgba(0,0,0,0.8);
+        }
+
+        tr:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        /* 🔴 LOW ATTENDANCE */
+        .low {
+            background-color: rgba(255, 0, 0, 0.3) !important;
+            color: #ff4d4d;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- 🔝 TOP BAR -->
+    <div class="topbar">
+        <h2>👋 {{ session['user'] }}</h2>
+        <div>
+            <a href="/dashboard">🏠 Dashboard</a>
+            <a href="/logout" class="logout">🚪 Logout</a>
+        </div>
+    </div>
+
+    <h2 class="main-title">📊 Attendance</h2>
+
+    <!-- 📊 TABLE -->
+    <table>
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Classes Held</th>
+                <th>Attended</th>
+                <th>Absent</th>
+                <th>Percentage</th>
+            </tr>
+        </thead>
+        <tbody id="attendance-body"></tbody>
+    </table>
+
+    <script>
+        async function fetchAttendance() {
+            try {
+                const response = await fetch('/attendance_data');
+                const data = await response.json();
+                const tbody = document.getElementById('attendance-body');
+                tbody.innerHTML = '';
+
+                data.forEach(item => {
+
+                    let held = item.held || 0;
+                    let attended = item.attended || 0;
+                    let absent = held - attended;
+
+                    let percentage = 0;
+                    if (held > 0) {
+                        percentage = (attended / held) * 100;
+                    }
+
+                    let rowClass = percentage < 70 ? "low" : "";
+
+                    const row = document.createElement('tr');
+                    row.className = rowClass;
+
+                    row.innerHTML = `
+                        <td>${item.subject}</td>
+                        <td>${held}</td>
+                        <td>${attended}</td>
+                        <td>${absent}</td>
+                        <td>${held === 0 ? 'No Classes Yet' : percentage.toFixed(2) + '%'}</td>
+                    `;
+
+                    tbody.appendChild(row);
+                });
+
+            } catch (err) {
+                console.error('Error fetching attendance:', err);
+            }
+        }
+
+        fetchAttendance(); // initial fetch
+        setInterval(fetchAttendance, 5000); // auto refresh
+
+    </script>
+
+</body>
+</html>

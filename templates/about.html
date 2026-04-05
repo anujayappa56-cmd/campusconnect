@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>About Us - CampusConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* ---------------- BASE ---------------- */
+        :root {
+            --bg: #0f172a;
+            --card: rgba(30, 41, 59, 0.7);
+            --text: #e2e8f0;
+            --accent: #38bdf8;
+        }
+
+        .light-mode {
+            --bg: #f5f7fb;
+            --card: rgba(255, 255, 255, 0.8);
+            --text: #111827;
+            --accent: #0072ff;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            transition: 0.4s;
+        }
+
+        /* ---------------- NAVBAR ---------------- */
+        .navbar {
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(90deg, #0072ff, #00c6ff);
+            color: white;
+        }
+
+        .logo {
+            font-weight: 600;
+            font-size: 20px;
+        }
+
+        .nav-links a {
+            margin-left: 20px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .navbar button {
+            margin-left: 20px;
+        }
+
+        /* ---------------- CONTAINER ---------------- */
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+
+        .slider {
+            height: 380px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .slider img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .section-title {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--accent);
+            border-left: 5px solid var(--accent);
+            padding-left: 10px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        /* ---------------- CARDS (GLASS) ---------------- */
+        .card {
+            background: var(--card);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            transition: 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        p {
+            color: var(--text);
+        }
+
+        /* ---------------- GALLERY ---------------- */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+
+        /* ---------------- PREMIUM MODAL ---------------- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(8px);
+            background: rgba(0,0,0,0.85);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal img {
+            max-width: 75%;
+            max-height: 75%;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            animation: zoomIn 0.4s ease;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.7); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .close {
+            position: absolute;
+            top: 25px;
+            right: 40px;
+            font-size: 35px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 45px;
+            color: white;
+            cursor: pointer;
+            padding: 10px;
+            transition: 0.3s;
+        }
+
+        .prev { left: 40px; }
+        .next { right: 40px; }
+
+        .prev:hover, .next:hover {
+            color: #00c6ff;
+            transform: scale(1.2);
+        }
+
+        iframe {
+            width: 100%;
+            height: 250px;
+            border-radius: 10px;
+            border: none;
+            margin-top: 10px;
+        }
+
+        .map-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 18px;
+            background: var(--accent);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 40px;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* ---------------- ANIMATED BACKGROUND ---------------- */
+        body::before {
+            content: "";
+            position: fixed;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, #0072ff, #00c6ff, #38bdf8, #0ea5e9);
+            animation: bgMove 10s linear infinite;
+            z-index: -1;
+            opacity: 0.15;
+        }
+
+        @keyframes bgMove {
+            0% { transform: translate(0,0); }
+            50% { transform: translate(-25%, -25%); }
+            100% { transform: translate(0,0); }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="logo">🎓 CampusConnect</div>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/login">Login</a>
+        <button onclick="toggleTheme()" style="
+            background: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+        ">
+            🌗 Toggle
+        </button>
+    </div>
+</div>
+
+<div class="container">
+
+    <h1>🎓 Government First Grade College, Hosadurga</h1>
+
+    <div class="slider">
+        <img src="{{ url_for('static', filename='photo1.jpg') }}">
+    </div>
+
+    <div class="card">
+        <div class="section-title">📸 Campus Gallery</div>
+
+        <div class="gallery">
+            <img src="{{ url_for('static', filename='photo1.jpg') }}" onclick="openModal(0)">
+            <img src="{{ url_for('static', filename='photo2.jpg') }}" onclick="openModal(1)">
+            <img src="{{ url_for('static', filename='photo3.jpg') }}" onclick="openModal(2)">
+            <img src="{{ url_for('static', filename='photo4.jpg') }}" onclick="openModal(3)">
+            <img src="{{ url_for('static', filename='photo5.jpg') }}" onclick="openModal(0)">
+            <img src="{{ url_for('static', filename='photo6.jpg') }}" onclick="openModal(1)">
+            <img src="{{ url_for('static', filename='photo7.jpg') }}" onclick="openModal(2)">
+            <img src="{{ url_for('static', filename='photo8.jpg') }}" onclick="openModal(3)">
+            <img src="{{ url_for('static', filename='photo9.jpg') }}" onclick="openModal(1)">
+            <img src="{{ url_for('static', filename='photo10.jpg') }}" onclick="openModal(2)">
+            <img src="{{ url_for('static', filename='photo11.jpg') }}" onclick="openModal(3)">
+        </div>
+    </div>
+
+    <div id="imgModal" class="modal">
+        <span class="close" onclick="closeModal()">✖</span>
+        <span class="prev" onclick="changeSlide(-1)">❮</span>
+        <img id="modalImg">
+        <span class="next" onclick="changeSlide(1)">❯</span>
+    </div>
+
+    <div class="card">
+        <div class="section-title">🏫 College Overview</div>
+        <p>
+            Government First Grade College (GFGCH), Hosadurga is affiliated with 
+            Davangere University and located in Chitradurga, Karnataka, India.
+        </p>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <div class="section-title">✨ Key Highlights</div>
+            <ul>
+                <li>Peaceful atmosphere</li>
+                <li>Excellent infrastructure</li>
+                <li>Computer Labs</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <div class="section-title">📚 Courses Offered</div>
+            <ul>
+                <li>B.Com</li>
+                <li>B.Sc</li>
+                <li>BA</li>
+                <li>BBA</li>
+                <li>BCA</li>
+                <li>M.A</li>
+                <li>M.Com</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="section-title">📍 Location</div>
+        <p>Hosadurga, Chitradurga, Karnataka – 577527</p>
+
+        <iframe src="https://www.google.com/maps?q=Government+First+Grade+College+Hosadurga&output=embed"></iframe>
+
+        <a href="https://maps.app.goo.gl/hz1W6oi5EFmyh7TNA" target="_blank" class="map-btn">
+            📍 Get Directions
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="section-title">📞 Contact Details</div>
+        <p>
+            <strong>PRO. Manjunatha S B</strong><br>
+            📞 9741503306<br>
+            ✉ sumangalamanjunatha@yahoo.in
+        </p>
+    </div>
+
+    <a href="/" class="back">⬅ Back to Home</a>
+
+</div>
+
+<script>
+let images = [
+    "{{ url_for('static', filename='photo1.jpg') }}",
+    "{{ url_for('static', filename='photo2.jpg') }}",
+    "{{ url_for('static', filename='photo3.jpg') }}",
+    "{{ url_for('static', filename='photo4.jpg') }}",
+    "{{ url_for('static', filename='photo5.jpg') }}",
+    "{{ url_for('static', filename='photo6.jpg') }}",
+    "{{ url_for('static', filename='photo7.jpg') }}",
+    "{{ url_for('static', filename='photo8.jpg') }}",
+    "{{ url_for('static', filename='photo9.jpg') }}",
+    "{{ url_for('static', filename='photo10.jpg') }}",
+    "{{ url_for('static', filename='photo11.jpg') }}"
+];
+
+let currentIndex = 0;
+
+function openModal(index) {
+    currentIndex = index;
+    document.getElementById("imgModal").style.display = "flex";
+    document.getElementById("modalImg").src = images[currentIndex];
+}
+
+function closeModal() {
+    document.getElementById("imgModal").style.display = "none";
+}
+
+function changeSlide(direction) {
+    currentIndex = (currentIndex + direction + images.length) % images.length;
+    document.getElementById("modalImg").src = images[currentIndex];
+}
+
+function toggleTheme() {
+    document.body.classList.toggle("light-mode");
+}
+</script>
+
+</body>
+</html>

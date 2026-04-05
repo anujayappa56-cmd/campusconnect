@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exam Results</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Arial;
+            background: linear-gradient(to right, #11998e, #38ef7d);
+            color: white;
+        }
+
+        /* 🔷 TOPBAR */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: rgba(0,0,0,0.3);
+        }
+
+        .topbar h2 {
+            margin: 0;
+        }
+
+        .topbar a {
+            text-decoration: none;
+            color: white;
+            margin-left: 15px;
+            padding: 8px 15px;
+            border-radius: 6px;
+            background: #ff9800;
+        }
+
+        /* 🔷 CONTAINER */
+        .container {
+            width: 90%;
+            margin: 30px auto;
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        h3 {
+            text-align: center;
+        }
+
+        /* 🔷 TABLE */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            color: black;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th {
+            background: #11998e;
+            color: white;
+            padding: 12px;
+        }
+
+        td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<!-- 🔷 TOPBAR -->
+<div class="topbar">
+    <h2>📊 Exam Results</h2>
+
+    <div>
+        <a href="{{ url_for('dashboard') }}">🏠 Dashboard</a>
+        <a href="{{ url_for('logout') }}">🚪 Logout</a>
+    </div>
+</div>
+
+<!-- 🔷 CONTENT -->
+<div class="container">
+
+    <h3>Your Results</h3>
+
+    {% if records %}
+    <table>
+        <tr>
+            <th>Subject</th>
+            <th>Marks</th>
+            <th>Total</th>
+            <th>Percentage</th>
+        </tr>
+
+        {% for r in records %}
+        <tr>
+            <td>{{ r[0] }}</td>
+            <td>{{ r[1] }}</td>
+            <td>{{ r[2] }}</td>
+            <td>
+                {{ ((r[1] / r[2]) * 100) | round(2) if r[2] > 0 else 0 }}%
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    {% else %}
+        <div class="empty">
+            ❌ No results uploaded yet
+        </div>
+    {% endif %}
+
+</div>
+
+</body>
+</html>

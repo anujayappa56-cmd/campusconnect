@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - CampusConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body style="margin:0; font-family:'Poppins', sans-serif;">
+
+    <!-- Background -->
+    <div style="
+        background-image: url('/static/login.jpg');
+        background-size: cover;
+        background-position: center;
+        height: 100vh;
+        position: relative;
+    ">
+
+        <!-- Overlay -->
+        <div style="
+            position:absolute;
+            width:100%;
+            height:100%;
+            background: rgba(0,0,0,0.4);
+        "></div>
+
+        <!-- Login Card -->
+        <div style="
+            position:absolute;
+            top:50%;
+            left:50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255,255,255,0.1);
+            padding:35px;
+            border-radius:12px;
+            backdrop-filter: blur(10px);
+            text-align:center;
+            color:white;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            width: 320px;
+        ">
+
+            <h2>Welcome Back 👋</h2>
+
+            {% if message %}
+            <script>
+                alert("{{ message }}");
+            </script>
+            {% endif %}
+
+            <form method="POST">
+
+                <label style="display:block; text-align:left; font-size:14px; margin-top:10px;">Select Role:</label>
+                <select name="role" required style="width:100%; padding:10px; border-radius:5px; border:none; margin-top:5px;">
+                    <option value="">Select Role</option>
+                    <option value="student">Student</option>
+                    <option value="lecturer">Lecturer</option>
+                    <option value="hod">HOD</option>
+                </select>
+
+                <div id="student_id_div" style="margin-top:10px;">
+                    <input type="text" name="student_id" placeholder="Student ID" style="width:100%; padding:10px; margin-top:10px; border:none; border-radius:5px; outline:none;">
+                </div>
+
+                <input type="text" name="username" placeholder="Username" required
+                style="width:100%; padding:10px; margin-top:10px; border:none; border-radius:5px; outline:none;">
+
+                <input type="password" name="password" placeholder="Password" required
+                style="width:100%; padding:10px; margin-top:10px; border:none; border-radius:5px; outline:none;">
+
+                <button type="submit" style="
+                    width:100%;
+                    padding:12px;
+                    margin-top:15px;
+                    border:none;
+                    border-radius:6px;
+                    background:#3498db;
+                    color:white;
+                    font-size:15px;
+                    cursor:pointer;
+                ">
+                    Login
+                </button>
+
+            </form>
+
+            <br>
+
+            <a href="{{ url_for('forgot') }}" style="color:#ddd; font-size:13px;">
+                Forgot Password?
+            </a>
+
+            <br><br>
+
+            <a href="/signup" style="color:#ddd; font-size:14px;">
+                Don't have an account? Sign Up
+            </a>
+
+        </div>
+
+    </div>
+
+<script>
+    const roleSelect = document.querySelector('select[name="role"]');
+    const studentDiv = document.getElementById('student_id_div');
+
+    roleSelect.addEventListener('change', function(){
+        if(this.value === 'student'){
+            studentDiv.style.display = 'block';
+        } else {
+            studentDiv.style.display = 'none';
+        }
+    });
+
+    // initially hide student_id field
+    studentDiv.style.display = 'none';
+</script>
+
+</body>
+</html>
